@@ -1,0 +1,24 @@
+
+{% block results %}
+
+<div id="{{ divid }}">
+    <span class='large loud section'>{{ caption }}</span>
+    <table class="tablesorter" cellspacing="1">
+    <thead>
+        <tr>
+        {% for title in titles %}
+            <td>{{ title }}</td>
+        {% endfor %}
+        </tr>
+    </thead>
+    {% for row in couchdbview %}
+    <tr>
+        <td>{{ row.value }}</td>
+        <td>{{ row.payload }}</td>
+    </tr>
+    {% endfor %}
+    </table>
+</div>
+
+{% endblock %}
+

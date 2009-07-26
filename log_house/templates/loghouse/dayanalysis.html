@@ -1,0 +1,50 @@
+
+{% extends "loghouse/layout.html" %}
+
+{% block title %}Daily analysis for {{month}}/{{day}}/{{year}}{% endblock %}
+
+{% block subtitle %}/{{year}}/{{month}}/{{day}}{% endblock %}
+
+{% block header %}
+<script type="text/javascript">
+$(document).ready( function() {
+
+    $.ajax( {
+        type: "GET",
+        url: "/loghouse/dwr/uri/{{year}}/{{month}}/{{day}}",
+        cache: false,
+        success: function( html ) {
+            $("#content").append( html );
+        }
+    });
+
+    $.ajax( {
+        type: "GET",
+        url: "/loghouse/dwr/agents/{{year}}/{{month}}/{{day}}",
+        cache: false,
+        success: function( html ) {
+            $("#content").append( html );
+        }
+    });
+
+    $.ajax( {
+        type: "GET",
+        url: "/loghouse/dwr/referrer/{{year}}/{{month}}/{{day}}",
+        cache: false,
+        success: function( html ) {
+            $("#content").append( html );
+        }
+    });
+
+    $.ajax( {
+        type: "GET",
+        url: "/loghouse/dwr/codes/{{year}}/{{month}}/{{day}}",
+        cache: false,
+        success: function( html ) {
+            $("#content").append( html );
+        }
+    });
+
+});
+</script>
+{% endblock %}
