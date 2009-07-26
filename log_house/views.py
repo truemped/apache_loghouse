@@ -61,17 +61,24 @@ def generateEndKey( params ):
     return endkey
 
 
-def day( request, **kwargs ):
+def generalView( request, templatename,  **kwargs ):
     """
-    The view for day analysis.
+    The general view.
     """
     startkey = generateStartKey( kwargs )
     endkey = generateEndKey( kwargs )
 
-    return render_to_response( 'loghouse/dayanalysis.html',
+    return render_to_response( templatename,
         kwargs,
         context_instance=RequestContext(request)
         )
+
+
+def day( request, **kwargs ):
+    """
+    The view for day analysis.
+    """
+    return generalView( request, 'loghouse/dayanalysis.html', kwargs )
 
 
 def getTemplateRow( row ):

@@ -69,16 +69,19 @@ urlpatterns = patterns('log_house.views',
     url(r'^$', "day", index_dict, name="index"),
 
     # by day
-    url(r'^(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\d{1,2})/$', 'day', name="day"),
+    url(r'^(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\d{1,2})/$', 'generalView', { 'templatename': 'loghouse/dayanalysis.html' },  name="month"),
 
     # by month
-#    url(r'^(?P<year>\d{4})/(?P<month>\d{4})/$', 'month', name="month"),
+    url(r'^(?P<year>\d{4})/(?P<month>\d{1,2})/$', 'generalView', { 'templatename': 'loghouse/monthanalysis.html' },  name="month"),
 
     # by year
 #    url(r'^(?P<year>\d{4})/$', 'year', name="year"),
 
     # ajax: uri by day
     url(r'^dwr/(?P<design>\w+)/(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\d{1,2})/$', 'ajax', ajax, name="ajax_day"),
+
+    # ajax: uri by day
+    url(r'^dwr/(?P<design>\w+)/(?P<year>\d{4})/(?P<month>\d{1,2})/$', 'ajax', ajax, name="ajax_month"),
 
 )
 
