@@ -4,51 +4,40 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.http import HttpResponse
 from django.utils import simplejson
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseForbidden
 
 from couchdbkit.client import Server, Database, View, ViewResults
 from couchdbkit.session import create_session
 
-from log_house.decorators import ajax_required
-from log_house.snippets import render_block_to_string
+from decorators import ajax_required
+from snippets import render_block_to_string
+from settings import COUCHDB_SERVER, COUCHDB_DATABASE, COUCHDB_QUERIES
 
 
 def generateStartKey( kwargs ):
     """
     Method for generating the startkey parameter to the CouchDB views.
     """
-    key = []
-    pk = []
     params = []
 
-    params.append( kwargs['year'] )
+    pk = "Y"
+    params.append( int(kwargs['year']) )
     if kwargs.has_key( 'month' ):
-        params.append( kwargs['month'] )
+        pk = "M"
+        params.append( int(kwargs['month']) )
         if kwargs.has_key( 'day' ):
-            params.append( kwargs['day'] )
+            pk = "D"
+            params.append( int(kwargs['day']) )
             if kwargs.has_key( 'hours' ):
-                params.append( kwargs['hours'] )
+                pk = "H"
+                params.append( int(kwargs['hours']) )
                 if kwargs.has_key( 'minutes' ):
-                    params.append( kwargs['minutes'] )
+                    pk = "m"
+                    params.append( int(kwargs['minutes']) )
 
-    if len(params) == 1:
-        key.append( 'Y' )
-        pk = ['year']
-    elif len(params) == 2:
-        key.append( 'M' )
-        pk = ['year','month']
-    elif len(params) == 3:
-        key.append( 'D' )
-        pk = ['year','month','day']
-    elif len(params) == 4:
-        key.append( 'H' )
-        pk = ['year','month','day','hours']
-    elif len(params) == 5:
-        key.append( 'm' )
-        pk = ['year','month','day','hours','minutes']
-
-    l = [ int(kwargs[k]) for k in pk ]
-    key.extend( l )
+    key = []
+    key.append( pk )
+    key.extend( params )
     return key
 
 
@@ -67,6 +56,7 @@ def generalView( request, templatename,  **kwargs ):
     """
     startkey = generateStartKey( kwargs )
     endkey = generateEndKey( kwargs )
+    kwargs["couchdbqueries"] = COUCHDB_QUERIES.keys()
 
     return render_to_response( templatename,
         kwargs,
@@ -98,8 +88,8 @@ def genericAjaxViewResult( request, viewname, divid, caption, titles, kwargs ):
     startkey = generateStartKey( kwargs )
     endkey = generateEndKey( kwargs )
 
-    s = Server()
-    db = create_session( s, "apache_loghouse" )
+    s = Server( COUCHDB_SERVER )
+    db = create_session( s, COUCHDB_DATABASE )
     result = db.view( viewname, wrapper=getTemplateRow, startkey=startkey, endkey=endkey, group=True )
 
     context = RequestContext( request, { "couchdbview": result, 
@@ -115,6 +105,9 @@ def ajax( request, **kwargs ):
     """
     Ajax view for the uri analysis.
     """
+    if kwargs['design'] not in COUCHDB_QUERIES:
+        return  HttpResponseForbidden()
+
     design = kwargs[ kwargs['design'] ]
     return genericAjaxViewResult( request,
         design['doc'],

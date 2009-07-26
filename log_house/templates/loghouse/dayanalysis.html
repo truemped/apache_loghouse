@@ -8,43 +8,16 @@
 {% block header %}
 <script type="text/javascript">
 $(document).ready( function() {
-
+{% for query in couchdbqueries %}
     $.ajax( {
         type: "GET",
-        url: "/loghouse/dwr/uri/{{year}}/{{month}}/{{day}}",
+        url: "{% url loghouse_ajax_day query year month day %}",
         cache: false,
         success: function( html ) {
             $("#content").append( html );
         }
     });
-
-    $.ajax( {
-        type: "GET",
-        url: "/loghouse/dwr/agents/{{year}}/{{month}}/{{day}}",
-        cache: false,
-        success: function( html ) {
-            $("#content").append( html );
-        }
-    });
-
-    $.ajax( {
-        type: "GET",
-        url: "/loghouse/dwr/referrer/{{year}}/{{month}}/{{day}}",
-        cache: false,
-        success: function( html ) {
-            $("#content").append( html );
-        }
-    });
-
-    $.ajax( {
-        type: "GET",
-        url: "/loghouse/dwr/codes/{{year}}/{{month}}/{{day}}",
-        cache: false,
-        success: function( html ) {
-            $("#content").append( html );
-        }
-    });
-
+{% endfor %}    
 });
 </script>
 {% endblock %}

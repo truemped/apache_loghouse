@@ -31,36 +31,10 @@ from datetime import datetime
 
 from django.conf.urls.defaults import *
 
+from settings import COUCHDB_QUERIES
+
 now = datetime.now()
 index_dict = { 'year':now.year, 'month':now.month-1, 'day':now.day }
-
-
-ajax = {
-    'uri': {
-        'divid': "uris",
-        'caption': "Accessed URIs",
-        'titles': [ "#", "URI"],
-        'doc': "loghouse/uris"
-    },
-    'agents': {
-        'divid': "agents",
-        'caption': "Agents",
-        'titles': [ "#", "Agent"],
-        'doc': "loghouse/agents"
-    },
-    'referrer': {
-        'divid': "referrers",
-        'caption': "Referrers",
-        'titles': [ "#", "Referrer"],
-        'doc': "loghouse/referral"
-    },
-    'codes': {
-        'divid': "codes",
-        'caption': "Status Codes",
-        'titles': [ "#", "Status Code"],
-        'doc': "loghouse/statusCodes"
-    },
-}
 
 
 urlpatterns = patterns('log_house.views',
@@ -69,19 +43,23 @@ urlpatterns = patterns('log_house.views',
     url(r'^$', "day", index_dict, name="index"),
 
     # by day
-    url(r'^(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\d{1,2})/$', 'generalView', { 'templatename': 'loghouse/dayanalysis.html' },  name="month"),
+    url(r'^(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\d{1,2})/$', 'generalView', { 'templatename':
+        'loghouse/dayanalysis.html' },  name="loghouse_day"),
 
     # by month
-    url(r'^(?P<year>\d{4})/(?P<month>\d{1,2})/$', 'generalView', { 'templatename': 'loghouse/monthanalysis.html' },  name="month"),
+    url(r'^(?P<year>\d{4})/(?P<month>\d{1,2})/$', 'generalView', { 'templatename':
+        'loghouse/monthanalysis.html' },  name="loghouse_month"),
 
     # by year
 #    url(r'^(?P<year>\d{4})/$', 'year', name="year"),
 
     # ajax: uri by day
-    url(r'^dwr/(?P<design>\w+)/(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\d{1,2})/$', 'ajax', ajax, name="ajax_day"),
+    url(r'^dwr/(?P<design>\w+)/(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\d{1,2})/$', 'ajax',
+        COUCHDB_QUERIES, name="loghouse_ajax_day"),
 
     # ajax: uri by day
-    url(r'^dwr/(?P<design>\w+)/(?P<year>\d{4})/(?P<month>\d{1,2})/$', 'ajax', ajax, name="ajax_month"),
+    url(r'^dwr/(?P<design>\w+)/(?P<year>\d{4})/(?P<month>\d{1,2})/$', 'ajax', COUCHDB_QUERIES,
+        name="loghouse_ajax_month"),
 
 )
 
