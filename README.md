@@ -28,6 +28,8 @@ Besides the obvious (Django) you will need to install [couchdbkit][cdbkit].
 
  2. break up the loader and make the extraction of information more modular
 
+ 3. use httpagentparser to extract more information from the user agent
+
 [cdb]: http://couchdb.apache.org
 [dj]: http://www.djangoproject.com
 [cdbkit]: http://www.couchdbkit.com
