@@ -11,7 +11,7 @@
         {% endfor %}
         </tr>
     </thead>
-    {% for row in couchdbview %}
+    {% for row in couchdbview|dictsortreversed:"value" %}
     <tr>
         <td>{{ row.value }}</td>
         <td>{{ row.payload }}</td>
