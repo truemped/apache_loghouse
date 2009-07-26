@@ -88,8 +88,8 @@ def genericAjaxViewResult( request, viewname, divid, caption, titles, kwargs ):
     startkey = generateStartKey( kwargs )
     endkey = generateEndKey( kwargs )
 
-    s = Server( COUCHDB_SERVER )
-    db = create_session( s, COUCHDB_DATABASE )
+    server = Server( COUCHDB_SERVER )
+    db = create_session( server, COUCHDB_DATABASE )
     result = db.view( viewname, wrapper=getTemplateRow, startkey=startkey, endkey=endkey, group=True )
 
     context = RequestContext( request, { "couchdbview": result, 

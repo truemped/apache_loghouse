@@ -1,5 +1,5 @@
 function(doc) {
-    // !code lib/helpers/parsedate.js
+    // !code _attachments/lib/helper/parsedate.js
     if( doc.status_code && doc.time ) {
         var d = new Date();
         d.setISO8601( doc.time );

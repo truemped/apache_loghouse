@@ -47,7 +47,7 @@ COUCHDB_QUERIES = {
         'divid': "referrers",
         'caption': "Referrers",
         'titles': [ "#", "Referrer"],
-        'doc': "loghouse/referral"
+        'doc': "loghouse/referrer"
     },
     'codes': {
         'divid': "codes",

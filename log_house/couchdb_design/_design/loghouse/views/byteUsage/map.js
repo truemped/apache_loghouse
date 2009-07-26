@@ -1,5 +1,5 @@
 function(doc) {
-    // !code lib/helpers/parsedate.js
+    // !code _attachments/lib/helper/parsedate.js
     if( doc.bytes && doc.status_code && doc.status_code == 200 && doc.time ) {
         var d = new Date();
         d.setISO8601( doc.time );
