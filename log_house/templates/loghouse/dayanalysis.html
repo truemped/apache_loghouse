@@ -3,7 +3,11 @@
 
 {% block title %}Daily analysis for {{month}}/{{day}}/{{year}}{% endblock %}
 
-{% block subtitle %}/{{year}}/{{month}}/{{day}}{% endblock %}
+{% block subtitle %}
+/ <a href="{% url loghouse_year year %}">{{year}}</a>
+/ <a href="{% url loghouse_month year month %}">{{month}}</a>
+/ <a href="{% url loghouse_day year month day %}">{{day}}</a>
+{% endblock %}
 
 {% block header %}
 <script type="text/javascript">
@@ -14,7 +18,7 @@ $(document).ready( function() {
         url: "{% url loghouse_ajax_day query year month day %}",
         cache: false,
         success: function( html ) {
-            $("#content").append( html );
+            $("#{{ query }}").append( html );
         }
     });
 {% endfor %}    

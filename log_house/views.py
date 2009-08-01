@@ -64,13 +64,6 @@ def generalView( request, templatename,  **kwargs ):
         )
 
 
-def day( request, **kwargs ):
-    """
-    The view for day analysis.
-    """
-    return generalView( request, 'loghouse/dayanalysis.html', kwargs )
-
-
 def getTemplateRow( row ):
     """
     Convert the CouchDB row to the one used in the templates.

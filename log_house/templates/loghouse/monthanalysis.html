@@ -1,51 +1,26 @@
 
 {% extends "loghouse/layout.html" %}
 
-{% block title %}Daily analysis for {{month}}/{{day}}/{{year}}{% endblock %}
+{% block title %}Monthly analysis for {{month}}/{{year}}{% endblock %}
 
-{% block subtitle %}/{{year}}/{{month}}/{{day}}{% endblock %}
+{% block subtitle %}
+/ <a href="{% url loghouse_year year %}">{{year}}</a>
+/ <a href="{% url loghouse_month year month %}">{{month}}</a>
+{% endblock %}
 
 {% block header %}
 <script type="text/javascript">
 $(document).ready( function() {
-
+{% for query in couchdbqueries %}
     $.ajax( {
         type: "GET",
-        url: "/loghouse/dwr/uri/{{year}}/{{month}}",
+        url: "{% url loghouse_ajax_month query year month %}",
         cache: false,
         success: function( html ) {
             $("#content").append( html );
         }
     });
-
-    $.ajax( {
-        type: "GET",
-        url: "/loghouse/dwr/agents/{{year}}/{{month}}",
-        cache: false,
-        success: function( html ) {
-            $("#content").append( html );
-        }
-    });
-
-    $.ajax( {
-        type: "GET",
-        url: "/loghouse/dwr/referrer/{{year}}/{{month}}",
-        cache: false,
-        success: function( html ) {
-            $("#content").append( html );
-        }
-    });
-
-    $.ajax( {
-        type: "GET",
-        url: "/loghouse/dwr/codes/{{year}}/{{month}}",
-        cache: false,
-        success: function( html ) {
-            $("#content").append( html );
-        }
-    });
-
+{% endfor %}    
 });
 </script>
 {% endblock %}
-
