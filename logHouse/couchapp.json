@@ -1,4 +1,4 @@
 {
-    "name": "Name of your CouchApp",
-    "description": "CouchApp"
+    "name": "Apache Log House",
+    "description": "Simple Analysis of Apache Logfiles"
 }
