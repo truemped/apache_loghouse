@@ -17,7 +17,7 @@ $(document).ready( function() {
         url: "{% url loghouse_ajax_month query year month %}",
         cache: false,
         success: function( html ) {
-            $("#content").append( html );
+            $("#{{ query }}").append( html );
         }
     });
 {% endfor %}    

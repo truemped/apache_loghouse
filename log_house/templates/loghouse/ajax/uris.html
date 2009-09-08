@@ -1,9 +1,9 @@
 
 {% block results %}
 
-<div id="{{ divid }}">
-    <span class='large loud section'>{{ caption }}</span>
-    <table class="tablesorter" cellspacing="1">
+<span class='large loud section'>{{ caption }}</span>
+<div id="{{ divid }}data" class="span-13 border">
+    <table id="{{ divid }}table" class="tablesorter" cellspacing="1">
     <thead>
         <tr>
         {% for title in titles %}
@@ -15,6 +15,9 @@
     <tr>
         <td>{{ row.value }}</td>
         <td>{{ row.payload }}</td>
+        {% if forloop.first %}
+            <td rowspan="10"><div id="{{ divid }}visual"></div></td>
+        {% endif %}
     </tr>
     {% endfor %}
     </table>
