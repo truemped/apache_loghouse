@@ -75,7 +75,6 @@ def parse(filename):
 
         if x.group('agent') is not None:
             agentInfo = httpagentparser.detect( x.group('agent') )
-            print agentInfo
 
             if 'flavor' in agentInfo:
                 a['os'] = agentInfo['flavor'].keys()[0]
@@ -145,5 +144,15 @@ def loadDb( uri, db, filename ):
             session(document).save()
 
 if __name__ == '__main__':
-    loadDb( 'http://localhost:5984', 'apache_loghouse', sys.argv[1] )
+    from optparse import OptionParser
+    parser = OptionParser(usage="usage: %prog options")
+    parser.add_option("-d", "--db", dest="db", help="The database to store the log file in")
+    parser.add_option("-u", "--url", dest="url", help="The url to the couchdb")
+    parser.add_option("-f", "--file", dest="file", help="The filename of the logfile to import")
+    (options, args) = parser.parse_args()
+
+    if options.db is None or options.url is None or options.file is None:
+        parser.print_help()
+    else:
+        loadDb( options.url, options.db, options.file )
 
