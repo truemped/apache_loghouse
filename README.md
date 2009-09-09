@@ -6,7 +6,27 @@ Currently, analysis is restricted to loading the parts of a log file entry
 into a CouchDB Database. All views only operate on the simple facts of the
 extracted data.
 
+Now that I have successfully wrapped my mind around the concept of CouchApps I
+am going to dig deeper into ways for more dynamic analysis. Currently I try to
+figure a way for dynamically combining existing views...
+
+# CouchApp
+
+Finally I managed to get my head around the [CouchApp][couchapp] thing. The
+*logHouse* directory contains a CouchApp doing all the analysis as the django
+app, plus three more now.
+
+The loader script has been extended to extract things like browser, os and bot
+which are now added instead of the full agent string. These three are now
+visible in the app.
+
+[couchapp]: http://github.com/couchapp/couchapp
+
 # Django-Application
+
+*Note:* the development of the django app has been abandoned for the time
+being. New stuff wil be in the CouchApp. The django app has been moved to
+*django-log-house* .
 
 A first, very rough [django][dj] application is in the *log_house* directory.
 Installing is as easy as creating a symbolic link in your project directory.
