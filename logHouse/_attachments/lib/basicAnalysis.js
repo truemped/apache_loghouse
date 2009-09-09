@@ -1,18 +1,6 @@
 
 var viewPageSize = 5;
 
-var currentReferrerStart = 0;
-var currentReferrerEnd = 5;
-
-var currentUrisStart = 0;
-var currentUrisEnd = 5;
-
-var currentCodesStart = 0;
-var currentCodesEnd = 5;
-
-var currentBytesStart = 0;
-var currentBytesEnd = 5;
-
 orderResultsPerValue = function( results ) {
     results.rows.sort( function(a,b) {
         return b.value - a.value;
@@ -61,6 +49,9 @@ resetDayView = function( year, month, day ) {
     resetUrisDayView( year, month, day );
     resetCodesDayView( year, month, day );
     resetBytesDayView( year, month, day );
+    resetBrowserDayView( year, month, day );
+    resetOsDayView( year, month, day );
+    resetBotsDayView( year, month, day );
 }
 
 resetMonthView = function( year, month ) {
@@ -68,6 +59,9 @@ resetMonthView = function( year, month ) {
     resetUrisMonthView( year, month );
     resetCodesMonthView( year, month );
     resetBytesMonthView( year, month );
+    resetBrowserMonthView( year, month );
+    resetOsMonthView( year, month );
+    resetBotsMonthView( year, month );
 }
 
 resetYearView = function( year ) {
@@ -75,12 +69,18 @@ resetYearView = function( year ) {
     resetUrisYearView( year );
     resetCodesYearView( year );
     resetBytesYearView( year );
+    resetBrowserYearView( year );
+    resetOsYearView( year );
+    resetBotsYearView( year );
 }
 
 
 /****************************
  * URIs views.
  ****************************/
+var currentUrisStart = 0;
+var currentUrisEnd = 5;
+
 /*
  * Year view for URIs.
  */
@@ -92,7 +92,7 @@ updateUrisYearView = function( year, start, end ) {
         end,
         "#urisTable",
         "<tr> <td valign=\"right\" colspan=\"2\"><a href=\"javascript:showNextUrisYearPage("+year+");\">more</a></td> </tr>");
-    updatePicker( year, month, null );
+    updatePicker( year, null, null );
 }
 
 showNextUrisYearPage = function( year ) {
@@ -168,6 +168,9 @@ resetUrisDayView = function( year, month, day ) {
 /****************************
  * Status Codes views.
  ****************************/
+var currentCodesStart = 0;
+var currentCodesEnd = 5;
+
 /*
  * Year view for Status Codes.
  */
@@ -179,7 +182,7 @@ updateCodesYearView = function( year, start, end ) {
         end,
         "#codesTable",
         "<tr> <td valign=\"right\" colspan=\"2\"><a href=\"javascript:showNextCodesYearPage("+year+");\">more</a></td> </tr>");
-    updatePicker( year, month, null );
+    updatePicker( year, null, null );
 }
 
 showNextCodesYearPage = function( year ) {
@@ -255,6 +258,9 @@ resetCodesDayView = function( year, month, day ) {
 /****************************
  * Referrer views.
  ****************************/
+var currentReferrerStart = 0;
+var currentReferrerEnd = 5;
+
 /*
  * Year view for referrers.
  */
@@ -266,7 +272,7 @@ updateReferrerYearView = function( year, start, end ) {
         end,
         "#referrerTable",
         "<tr> <td valign=\"right\" colspan=\"2\"><a href=\"javascript:showNextReferrerYearPage("+year+");\">more</a></td> </tr>");
-    updatePicker( year, month, null );
+    updatePicker( year, null, null );
 }
 
 showNextReferrerYearPage = function( year ) {
@@ -342,6 +348,9 @@ resetReferrerDayView = function( year, month, day ) {
 /****************************
  * Byte Usage views.
  ****************************/
+var currentBytesStart = 0;
+var currentBytesEnd = 5;
+
 /*
  * Year view for bytes.
  */
@@ -353,7 +362,7 @@ updateBytesYearView = function( year, start, end ) {
         end,
         "#bytesTable",
         "<tr> <td valign=\"right\" colspan=\"2\"><a href=\"javascript:showNextBytesYearPage("+year+");\">more</a></td> </tr>");
-    updatePicker( year, month, null );
+    updatePicker( year, null, null );
 }
 
 showNextBytesYearPage = function( year ) {
@@ -423,6 +432,276 @@ resetBytesDayView = function( year, month, day ) {
     this.currentBytesEnd = 5;
     $("#bytesTable tbody tr").remove();
     updateBytesDayView( year, month, day, this.currentBytesStart, this.currentBytesEnd );
+}
+
+
+/****************************
+ * Browser Usage views.
+ ****************************/
+var currentBrowserStart = 0;
+var currentBrowserEnd = 5;
+
+/*
+ * Year view for bytes.
+ */
+updateBrowserYearView = function( year, start, end ) {
+    updateView( "browser",
+        ["Y",year],
+        ["Y",year,{}],
+        start,
+        end,
+        "#browserTable",
+        "<tr> <td valign=\"right\" colspan=\"2\"><a href=\"javascript:showNextBrowserYearPage("+year+");\">more</a></td> </tr>");
+    updatePicker( year, null, null );
+}
+
+showNextBrowserYearPage = function( year ) {
+    this.currentBrowserStart += this.viewPageSize;
+    this.currentBrowserEnd += this.viewPageSize;
+    updateBrowserYearView( year, this.currentBrowserStart, this.currentBrowserEnd );
+}
+
+resetBrowserYearView = function( year ) {
+    this.currentBrowserStart = 0;
+    this.currentBrowserEnd = 5;
+    $("#browserTable tbody tr").remove();
+    updateBrowserYearView( year, this.currentBrowserStart, this.currentBrowserEnd );
+}
+
+
+/*
+ * Month view for bytes.
+ */
+updateBrowserMonthView = function( year, month, start, end ) {
+    updateView( "browser",
+        ["M",year,month],
+        ["M",year,month,{}],
+        start,
+        end,
+        "#browserTable",
+        "<tr> <td valign=\"right\" colspan=\"2\"><a href=\"javascript:showNextBrowserMonthPage("+year+","+month+");\">more</a></td> </tr>");
+    updatePicker( year, month, null );
+}
+
+showNextBrowserMonthPage = function( year, month ) {
+    this.currentBrowserStart += this.viewPageSize;
+    this.currentBrowserEnd += this.viewPageSize;
+    updateBrowserMonthView( year, month, this.currentBrowserStart, this.currentBrowserEnd );
+}
+
+resetBrowserMonthView = function( year, month ) {
+    this.currentBrowserStart = 0;
+    this.currentBrowserEnd = 5;
+    $("#browserTable tbody tr").remove();
+    updateBrowserMonthView( year, month, this.currentBrowserStart, this.currentBrowserEnd );
+}
+
+
+/*
+ * Day view for bytes.
+ */
+updateBrowserDayView = function( year, month, day, start, end ) {
+    updateView( "browser",
+        ["D",year,month,day],
+        ["D",year,month,day,{}],
+        start,
+        end,
+        "#browserTable",
+        "<tr> <td valign=\"right\" colspan=\"2\"><a href=\"javascript:showNextBrowserDayPage("+year+","+month+","+day+");\">more</a></td> </tr>");
+    updatePicker( year, month, day );
+}
+
+showNextBrowserDayPage = function( year, month, day ) {
+    this.currentBrowserStart += this.viewPageSize;
+    this.currentBrowserEnd += this.viewPageSize;
+    updateBrowserDayView( year, month, day, this.currentBrowserStart, this.currentBrowserEnd );
+}
+
+resetBrowserDayView = function( year, month, day ) {
+    this.currentBrowserStart = 0;
+    this.currentBrowserEnd = 5;
+    $("#browserTable tbody tr").remove();
+    updateBrowserDayView( year, month, day, this.currentBrowserStart, this.currentBrowserEnd );
+}
+
+
+/****************************
+ * OS Usage views.
+ ****************************/
+var currentOsStart = 0;
+var currentOsEnd = 5;
+
+/*
+ * Year view for bytes.
+ */
+updateOsYearView = function( year, start, end ) {
+    updateView( "os",
+        ["Y",year],
+        ["Y",year,{}],
+        start,
+        end,
+        "#osTable",
+        "<tr> <td valign=\"right\" colspan=\"2\"><a href=\"javascript:showNextOsYearPage("+year+");\">more</a></td> </tr>");
+    updatePicker( year, null, null );
+}
+
+showNextOsYearPage = function( year ) {
+    this.currentOsStart += this.viewPageSize;
+    this.currentOsEnd += this.viewPageSize;
+    updateOsYearView( year, this.currentOsStart, this.currentOsEnd );
+}
+
+resetOsYearView = function( year ) {
+    this.currentOsStart = 0;
+    this.currentOsEnd = 5;
+    $("#osTable tbody tr").remove();
+    updateOsYearView( year, this.currentOsStart, this.currentOsEnd );
+}
+
+
+/*
+ * Month view for bytes.
+ */
+updateOsMonthView = function( year, month, start, end ) {
+    updateView( "os",
+        ["M",year,month],
+        ["M",year,month,{}],
+        start,
+        end,
+        "#osTable",
+        "<tr> <td valign=\"right\" colspan=\"2\"><a href=\"javascript:showNextOsMonthPage("+year+","+month+");\">more</a></td> </tr>");
+    updatePicker( year, month, null );
+}
+
+showNextOsMonthPage = function( year, month ) {
+    this.currentOsStart += this.viewPageSize;
+    this.currentOsEnd += this.viewPageSize;
+    updateOsMonthView( year, month, this.currentOsStart, this.currentOsEnd );
+}
+
+resetOsMonthView = function( year, month ) {
+    this.currentOsStart = 0;
+    this.currentOsEnd = 5;
+    $("#osTable tbody tr").remove();
+    updateOsMonthView( year, month, this.currentOsStart, this.currentOsEnd );
+}
+
+
+/*
+ * Day view for bytes.
+ */
+updateOsDayView = function( year, month, day, start, end ) {
+    updateView( "os",
+        ["D",year,month,day],
+        ["D",year,month,day,{}],
+        start,
+        end,
+        "#osTable",
+        "<tr> <td valign=\"right\" colspan=\"2\"><a href=\"javascript:showNextOsDayPage("+year+","+month+","+day+");\">more</a></td> </tr>");
+    updatePicker( year, month, day );
+}
+
+showNextOsDayPage = function( year, month, day ) {
+    this.currentOsStart += this.viewPageSize;
+    this.currentOsEnd += this.viewPageSize;
+    updateOsDayView( year, month, day, this.currentOsStart, this.currentOsEnd );
+}
+
+resetOsDayView = function( year, month, day ) {
+    this.currentOsStart = 0;
+    this.currentOsEnd = 5;
+    $("#osTable tbody tr").remove();
+    updateOsDayView( year, month, day, this.currentOsStart, this.currentOsEnd );
+}
+
+
+/****************************
+ * Bots Usage views.
+ ****************************/
+var currentBotsStart = 0;
+var currentBotsEnd = 5;
+
+/*
+ * Year view for bytes.
+ */
+updateBotsYearView = function( year, start, end ) {
+    updateView( "bot",
+        ["Y",year],
+        ["Y",year,{}],
+        start,
+        end,
+        "#botTable",
+        "<tr> <td valign=\"right\" colspan=\"2\"><a href=\"javascript:showNextBotsYearPage("+year+");\">more</a></td> </tr>");
+    updatePicker( year, null, null );
+}
+
+showNextBotsYearPage = function( year ) {
+    this.currentBotsStart += this.viewPageSize;
+    this.currentBotsEnd += this.viewPageSize;
+    updateBotsYearView( year, this.currentBotsStart, this.currentBotsEnd );
+}
+
+resetBotsYearView = function( year ) {
+    this.currentBotsStart = 0;
+    this.currentBotsEnd = 5;
+    $("#botTable tbody tr").remove();
+    updateBotsYearView( year, this.currentBotsStart, this.currentBotsEnd );
+}
+
+
+/*
+ * Month view for bytes.
+ */
+updateBotsMonthView = function( year, month, start, end ) {
+    updateView( "bot",
+        ["M",year,month],
+        ["M",year,month,{}],
+        start,
+        end,
+        "#botTable",
+        "<tr> <td valign=\"right\" colspan=\"2\"><a href=\"javascript:showNextBotsMonthPage("+year+","+month+");\">more</a></td> </tr>");
+    updatePicker( year, month, null );
+}
+
+showNextBotsMonthPage = function( year, month ) {
+    this.currentBotsStart += this.viewPageSize;
+    this.currentBotsEnd += this.viewPageSize;
+    updateBotsMonthView( year, month, this.currentBotsStart, this.currentBotsEnd );
+}
+
+resetBotsMonthView = function( year, month ) {
+    this.currentBotsStart = 0;
+    this.currentBotsEnd = 5;
+    $("#botTable tbody tr").remove();
+    updateBotsMonthView( year, month, this.currentBotsStart, this.currentBotsEnd );
+}
+
+
+/*
+ * Day view for bytes.
+ */
+updateBotsDayView = function( year, month, day, start, end ) {
+    updateView( "bot",
+        ["D",year,month,day],
+        ["D",year,month,day,{}],
+        start,
+        end,
+        "#botTable",
+        "<tr> <td valign=\"right\" colspan=\"2\"><a href=\"javascript:showNextBotsDayPage("+year+","+month+","+day+");\">more</a></td> </tr>");
+    updatePicker( year, month, day );
+}
+
+showNextBotsDayPage = function( year, month, day ) {
+    this.currentBotsStart += this.viewPageSize;
+    this.currentBotsEnd += this.viewPageSize;
+    updateBotsDayView( year, month, day, this.currentBotsStart, this.currentBotsEnd );
+}
+
+resetBotsDayView = function( year, month, day ) {
+    this.currentBotsStart = 0;
+    this.currentBotsEnd = 5;
+    $("#botTable tbody tr").remove();
+    updateBotsDayView( year, month, day, this.currentBotsStart, this.currentBotsEnd );
 }
 
 
