@@ -39,7 +39,9 @@ data. If you want to use a different database name, change the last line.
 
 # Dependencies
 
-Besides the obvious (Django) you will need to install [couchdbkit][cdbkit].
+Besides the obvious CouchDB you will need to install [couchdbkit][cdbkit] and
+[httpagentparser][httpap]. These should be downloaded automatically when
+installing the script via *setup.py* .
 
 # TODO
 
@@ -53,3 +55,4 @@ Besides the obvious (Django) you will need to install [couchdbkit][cdbkit].
 [cdb]: http://couchdb.apache.org
 [dj]: http://www.djangoproject.com
 [cdbkit]: http://www.couchdbkit.com
+[httpap]: http://pypi.python.org/pypi/httpagentparser/0.7
